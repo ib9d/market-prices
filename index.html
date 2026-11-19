@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>فاحص الأسعار الذكي - ماركت خيرات الرحمن</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+</head>
+<body>
+
+<header>
+  <h1 id="storeTitle" onclick="handleSecretTitleTap()">🛒 فاحص الأسعار — ماركت خيرات الرحمن</h1>
+</header>
+
+<div class="container" id="customerView">
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('scan', this)">🔍 فحص السعر</button>
+    <button class="tab" onclick="switchTab('rate', this)">⭐ تقييم وشكوى</button>
+    <button class="tab" onclick="switchTab('request', this)">📦 طلب منتج</button>
+  </div>
+
+  <!-- تبويب فحص السعر -->
+  <div id="tab-scan" class="card">
+    <button class="btn btn-primary" id="startScanBtn" onclick="startScanner()">📷 افتح الكاميرا لمسح الباركود</button>
+    <button class="btn btn-outline hidden" id="stopScanBtn" onclick="stopScanner()">⏹️ إيقاف الكاميرا</button>
+    <div id="reader"></div>
+
+    <div class="input-group">
+      <input type="text" id="barcodeInput" placeholder="أو اكتب رقم الباركود هنا..." inputmode="numeric" />
+      <button class="btn btn-primary search-btn" onclick="searchProduct()">بحث</button>
+    </div>
+
+    <div class="sample-chips">
+      <span class="chips-label">تجربة سريعة من قاعدة البيانات:</span>
+      <button class="chip" onclick="quickTest('6281001')">6281001 (زيت طبخ)</button>
+      <button class="chip" onclick="quickTest('6281002')">6281002 (تمن عنبر)</button>
+      <button class="chip" onclick="quickTest('6281003')">6281003 (شاي أسود)</button>
+      <button class="chip" onclick="quickTest('6281004')">6281004 (سكر)</button>
+    </div>
+
+    <div id="resultBox" class="result-box"></div>
+  </div>
+
+  <!-- تبويب التقييم والشكاوى -->
+  <div id="tab-rate" class="card hidden">
+    <h3 class="card-title">شلون كانت تجربتك بالماركت اليوم؟</h3>
+    <div class="mood-grid">
+      <button class="mood-btn" onclick="selectMood('راضي 😊', this)"><span class="mood-emoji">😊</span>راضي</button>
+      <button class="mood-btn" onclick="selectMood('عادي 😐', this)"><span class="mood-emoji">😐</span>عادي</button>
+      <button class="mood-btn" onclick="selectMood('غير راضي 😞', this)"><span class="mood-emoji">😞</span>غير راضي</button>
+    </div>
+    <textarea id="feedbackText" rows="3" placeholder="اكتب ملاحظتك أو شكواك هنا (اختياري)..."></textarea>
+    <button class="btn btn-primary mt-12" onclick="submitFeedback()">إرسال التقييم</button>
+  </div>
+
+  <!-- تبويب طلب منتج -->
+  <div id="tab-request" class="card hidden">
+    <h3 class="card-title">ما لقيت منتج معين؟ اطلبه هنا</h3>
+    <input type="text" id="reqProductName" placeholder="اسم المنتج أو الشركة المصنعة..." />
+    <textarea id="reqNotes" rows="2" class="mt-10" placeholder="ملاحظات إضافية (الحجم، النوع...)"></textarea>
+    <button class="btn btn-primary mt-12" onclick="submitRequest()">إرسال الطلب للإدارة</button>
+  </div>
+</div>
+
+<!-- لوحة الإدارة المخفية -->
+<div class="container hidden" id="adminView">
+  <div class="card">
+    <div class="admin-header">
+      <h3 class="card-title">⚙️ إدارة المنتجات والأسعار</h3>
+      <div class="admin-actions">
+        <button class="chip" onclick="lockAdmin()">🔒 قفل</button>
+        <button class="chip" onclick="exitAdminView()">رجوع</button>
+      </div>
+    </div>
+
+    <div class="admin-form">
+      <input type="text" id="newCode" placeholder="رقم الباركود" />
+      <input type="text" id="newName" placeholder="اسم المنتج" />
+      <input type="text" id="newCategory" placeholder="القسم (مثال: مواد غذائية)" />
+      <input type="number" id="newPrice" placeholder="السعر بالدينار العراقي (مثال: 2500)" />
+      <input type="number" id="newStock" placeholder="الكمية المتوفرة (اختياري)" />
+      <button class="btn btn-primary" onclick="addProduct()">➕ إضافة / تحديث المنتج</button>
+    </div>
+
+    <div class="import-section">
+      <label class="import-label">استيراد ملف CSV (باركود,اسم,قسم,سعر,كمية):</label>
+      <input type="file" accept=".csv,.txt" onchange="importCSV(event)" class="file-input" />
+      <button class="btn btn-outline" onclick="exportJSON()">⬇️ تحميل نسخة JSON الحالية</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>الباركود</th>
+          <th>المنتج</th>
+          <th>القسم</th>
+          <th>السعر</th>
+          <th>حذف</th>
+        </tr>
+      </thead>
+      <tbody id="productsTable"></tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3 class="card-title">📊 تقييمات وطلبات الزبائن</h3>
+    <div id="logsList" class="logs-list"></div>
+    <button class="btn btn-outline" onclick="clearLogs()">مسح السجل</button>
+  </div>
+</div>
+
+<!-- نافذة الرقم السري للإدارة -->
+<div class="modal-backdrop hidden" id="pinModal">
+  <div class="modal-box">
+    <h3 class="modal-title">🔒 دخول الإدارة</h3>
+    <p class="modal-desc">أدخل الرقم السري للوصول إلى إدارة الأسعار</p>
+    <input type="password" id="pinInput" class="pin-input" maxlength="8" inputmode="numeric" placeholder="••••" />
+    <button class="btn btn-primary" onclick="verifyPin()">دخول</button>
+    <button class="btn btn-outline" onclick="closePinModal()">إلغاء</button>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="products.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

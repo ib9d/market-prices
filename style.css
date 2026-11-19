@@ -1,0 +1,377 @@
+
+:root {
+  --primary: #0f766e;
+  --primary-dark: #115e59;
+  --bg: #f1f5f9;
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --danger: #dc2626;
+  --success: #16a34a;
+  --radius: 14px;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, "Segoe UI", Tahoma, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  padding-bottom: 40px;
+}
+
+header {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.12rem;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.container {
+  max-width: 560px;
+  margin: 16px auto;
+  padding: 0 14px;
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+  background: #e2e8f0;
+  padding: 5px;
+  border-radius: 12px;
+}
+
+.tab {
+  border: none;
+  background: transparent;
+  padding: 10px 6px;
+  border-radius: 9px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.88rem;
+}
+
+.tab.active {
+  background: var(--card);
+  color: var(--primary);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.05);
+  margin-bottom: 16px;
+}
+
+.card-title {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.btn {
+  width: 100%;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+}
+
+.btn-outline {
+  background: #f8fafc;
+  border: 1.5px solid #cbd5e1;
+  color: var(--text);
+  margin-top: 8px;
+}
+
+.search-btn {
+  width: auto;
+  padding: 0 18px;
+}
+
+.input-group {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+}
+
+input:focus, textarea:focus {
+  border-color: var(--primary);
+}
+
+.mt-10 { margin-top: 10px; }
+.mt-12 { margin-top: 12px; }
+
+#reader {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 12px;
+  display: none;
+}
+
+.result-box {
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #f0fdfa;
+  border: 1.5px solid #99f6e4;
+  text-align: center;
+  display: none;
+}
+
+.result-box.not-found {
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+.badge {
+  display: inline-block;
+  background: #ccfbf1;
+  color: var(--primary-dark);
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.product-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.product-price {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin: 8px 0;
+}
+
+.price-vote {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.vote-btn {
+  flex: 1;
+  padding: 9px;
+  border-radius: 8px;
+  border: 1.5px solid #cbd5e1;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.vote-btn.good:hover {
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.vote-btn.high:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.mood-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.mood-btn {
+  padding: 14px 8px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  background: #fff;
+  cursor: pointer;
+  text-align: center;
+  font-weight: 600;
+}
+
+.mood-btn.selected {
+  border-color: var(--primary);
+  background: #f0fdfa;
+}
+
+.mood-emoji {
+  font-size: 1.8rem;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.sample-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.chips-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+  width: 100%;
+}
+
+.chip {
+  background: #e2e8f0;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.admin-form {
+  margin-top: 14px;
+  display: grid;
+  gap: 8px;
+}
+
+.import-section {
+  margin-top: 14px;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 12px;
+}
+
+.import-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.file-input {
+  margin-top: 6px;
+  font-size: 0.85rem;
+}
+
+.logs-list {
+  font-size: 0.9rem;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1e293b;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  z-index: 99;
+  display: none;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  margin-top: 12px;
+}
+
+th, td {
+  border-bottom: 1px solid #e2e8f0;
+  padding: 8px 4px;
+  text-align: right;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 50;
+}
+
+.modal-box {
+  background: #fff;
+  width: 100%;
+  max-width: 360px;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.modal-title {
+  margin: 0 0 6px;
+}
+
+.modal-desc {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.pin-input {
+  text-align: center;
+  letter-spacing: 8px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 14px 0;
+}
